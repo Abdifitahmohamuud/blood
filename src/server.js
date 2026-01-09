@@ -12,6 +12,7 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const hospitalRoutes = require('./routes/hospitals');
 const requestRoutes = require('./routes/requests');
+const adminRoutes = require('./routes/admins');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/hospitals', hospitalRoutes);
 app.use('/api/requests', requestRoutes);
+app.use('/api/admins', adminRoutes);
 
 app.use(errorHandler);
 

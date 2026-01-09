@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Hospital = require('../models/Hospital');
+const Admin = require('../models/Admin');
 
 // protect routes
 exports.protect = async (req, res, next) => {
@@ -23,6 +24,8 @@ exports.protect = async (req, res, next) => {
       req.user = await User.findById(decoded.id).select('-password');
     } else if (decoded.role === 'hospital') {
       req.hospital = await Hospital.findById(decoded.id).select('-password');
+    } else if (decoded.role === 'admin') {
+      req.admin = await Admin.findById(decoded.id).select('-password');
     }
     req.auth = decoded; // keep payload
     next();

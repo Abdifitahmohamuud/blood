@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Hospital = require('../models/Hospital');
+const Admin = require('../models/Admin');
 const generateToken = require('../utils/generateToken');
 
 // Signup for User
@@ -38,4 +39,23 @@ exports.hospitalLogin = async (req, res, next) => {
   if (!isMatch) return res.status(400).json({ success: false, error: 'Invalid credentials' });
   const token = generateToken({ id: hospital._id, role: 'hospital' });
   res.json({ success: true, data: hospital, token });
+};
+
+// Admin signup
+exports.adminSignup = async (req, res, next) => {
+  const { name, email, password } = req.body;
+  const admin = await Admin.create({ name, email, password });
+  const token = generateToken({ id: admin._id, role: 'admin' });
+  res.status(201).json({ success: true, data: admin, token });
+};
+
+// Admin login
+exports.adminLogin = async (req, res, next) => {
+  const { email, password } = req.body;
+  const admin = await Admin.findOne({ email }).select('+password');
+  if (!admin) return res.status(400).json({ success: false, error: 'Invalid credentials' });
+  const isMatch = await admin.matchPassword(password);
+  if (!isMatch) return res.status(400).json({ success: false, error: 'Invalid credentials' });
+  const token = generateToken({ id: admin._id, role: 'admin' });
+  res.json({ success: true, data: admin, token });
 };

@@ -10,8 +10,8 @@ const {
 } = require('../controllers/userController');
 const { protect, authorize } = require('../middleware/auth');
 
-router.route('/').get(protect, authorize('hospital','user'), getUsers).post(createUser);
-router.route('/:id').get(protect, authorize('hospital','user'), getUser).put(protect, authorize('user'), updateUser).delete(protect, authorize('user'), deleteUser);
+router.route('/').get(protect, authorize('admin'), getUsers).post(protect, authorize('admin'), createUser);
+router.route('/:id').get(protect, authorize('admin'), getUser).put(protect, authorize('admin'), updateUser).delete(protect, authorize('admin'), deleteUser);
 
 // find nearby requests (open for users)
 router.get('/:id/nearby-requests', protect, authorize('user'), getNearbyRequests);
