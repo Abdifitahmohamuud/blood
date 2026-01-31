@@ -13,6 +13,7 @@ const userRoutes = require('./routes/users');
 const hospitalRoutes = require('./routes/hospitals');
 const requestRoutes = require('./routes/requests');
 const adminRoutes = require('./routes/admins');
+const donationRoutes = require('./routes/donations');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/hospitals', hospitalRoutes);
 app.use('/api/requests', requestRoutes);
 app.use('/api/admins', adminRoutes);
+app.use('/api/donations', donationRoutes);
 
 app.use(errorHandler);
 

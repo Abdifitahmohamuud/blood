@@ -221,6 +221,54 @@ Responses & Error codes
 - `404 Not Found` — resource missing
 - `500 Server Error` — unexpected error
 
+---
+
+Donation Logs API
+
+This API records donation events (a donor giving blood). Only users with role `admin` or `hospital` can create, read, update or delete donation logs.
+
+Base path: `/api/donations`
+
+1) Create donation log
+
+- POST `/api/donations`
+- Headers: `Authorization: Bearer <admin-or-hospital-token>`
+- Body (JSON):
+
+```json
+{
+	"donorId": "<userId>",
+	"hospitalId": "<hospitalId>",
+	"quantity": 1,
+	"donatedAt": "2026-01-31T12:00:00.000Z",
+	"notes": "Voluntary donation"
+}
+```
+
+- Response: `201 Created` with `{ success:true, data: donationLog }`. The `donorSnapshot` field contains donor info at time of donation.
+
+2) List donation logs
+
+- GET `/api/donations`
+- Headers: `Authorization: Bearer <admin-or-hospital-token>`
+- Response: `200 OK` with `{ success:true, count, data: [...] }`.
+
+3) Get single donation
+
+- GET `/api/donations/:id`
+- Headers: `Authorization: Bearer <admin-or-hospital-token>`
+
+4) Update donation
+
+- PUT `/api/donations/:id` (admin or hospital)
+- Body: fields to update (e.g., `notes`, `quantity`).
+
+5) Delete donation
+
+- DELETE `/api/donations/:id` (admin or hospital)
+
+Security note: the server stores a snapshot of donor info in `donorSnapshot` to preserve historical data even if the user updates or is removed later.
+
 Testing & Postman
 
 - Use Postman or HTTPie; set `Content-Type: application/json` and include `Authorization: Bearer <token>` for protected calls.
